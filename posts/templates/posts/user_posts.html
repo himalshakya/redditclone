@@ -1,0 +1,43 @@
+{% extends 'base.html' %} {% block title %} Home Page{% endblock %} {% block content %} {% if message_ok %}
+<div class="alert alert-primary" role="alert">
+    {{ message_ok }}
+</div>
+{% endif %} {% if message_error %}
+<div class="alert alert-danger" role="alert">
+    {{ message_error }}
+</div>
+{% endif %}
+<h1>Home Page of nowhere</h1>
+<h3>Posts from {{ user_post }}</h3>
+<a class="btn btn-primary" href="{% url 'posts:create' %}" role="button">New Post</a>
+<br/>
+<br/>
+<br/> {% for post in posts.all %}
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-1">
+                <div class="mx-auto text-center">
+                    <form action="{% url 'posts:upvote' post.id %}" method="POST">{% csrf_token %}
+                        <button type="submit" class="btn btn-success" value="UP">
+                                        <i class="fas fa-arrow-up"></i></button>
+                    </form>
+                    {{ post.votes }}
+                    <form action="{% url 'posts:downvote' post.id %}" method="POST">{% csrf_token %}
+                        <button type="submit" class="btn btn-success" value="DOWN">
+                                        <i class="fas fa-arrow-down"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-11">
+                <h5 class="card-title">
+                    <a href="{{ post.url }}" target="_blank"> {{ post.title }}</a>
+                </h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ post.pub_date_pretty }} by {{ post.author.username}}</h6>
+            </div>
+        </div>
+
+    </div>
+</div>
+<br/>
+<br/> {% endfor %} {% endblock %}

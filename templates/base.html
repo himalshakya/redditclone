@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+    <style>
+        .container {
+            padding-top: 60px;
+        }
+        
+        @media (max-width: 979px) {
+            .container {
+                padding-top: 0px;
+            }
+        }
+    </style>
+
+    <title>{% block title %} {% endblock %}</title>
+</head>
+
+<body>
+    <!-- Image and text -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-right">
+        <a class="navbar-brand" href="#">Reddit Clone</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active ">
+                    <a class="nav-link " href="{% url 'home' %} ">Home <span class="sr-only ">(current)</span></a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link " href="# ">Features</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link " href="{% url 'home' %} ">About</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link " href="https://twitter.com/yeti_8848 ">Twitter</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item ">
+                    <a class="nav-link " href="{% url 'user_posts' user.get_username %} ">My Posts</a>
+                </li>
+                {% endif %}
+
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                <li class="nav-item ">
+                    <span class="navbar-text">
+                    Welcome, {{ user.get_username }}
+                    </span>
+                </li>
+                <li class="nav-item ml">
+                    <form action="{% url 'accounts:logout' %}" method="POST">{% csrf_token %}
+                        <button type="submit" class="btn btn-link nav-link" value="logout">
+                                        Logout</button>
+                    </form>
+                    {% else %}
+                    <li class="nav-item ">
+                        <a class="nav-link " href="{% url 'accounts:signup' %} ">Signup</a>
+                    </li>
+                    <li class="nav-item ml">
+                        <a class="nav-link " href="{% url 'accounts:login' %} ">Login</a></li>
+                    {% endif %}
+
+            </ul>
+        </div>
+    </nav>
+    <div class="container ">
+        {% block content %} {% endblock %}
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js " integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo " crossorigin="anonymous "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js " integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49 " crossorigin="anonymous "></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js " integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T " crossorigin="anonymous "></script>
+</body>
+
+</html>
